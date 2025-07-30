@@ -1,0 +1,390 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // DOM Elements
+    const productsGrid = document.getElementById('products-grid');
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notification-message');
+    const cartCount = document.querySelector('.cart-count');
+    const searchInput = document.getElementById('search-input');
+    const tabs = document.querySelectorAll('.tab');
+    
+    // Sample product data
+    const products = [
+        {
+            id: 1,
+            name: 'Tomatoes',
+            category: 'vegetables',
+            price: 40,
+            originalPrice: 50,
+            stock: 45,
+            unit: 'kg',
+            image: 'https://images.unsplash.com/photo-1592924379998-ab18d944ba0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: '20% OFF',
+            organic: false
+        },
+        {
+            id: 2,
+            name: 'Apples',
+            category: 'fruits',
+            price: 120,
+            originalPrice: 150,
+            stock: 32,
+            unit: 'kg',
+            image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: '20% OFF',
+            organic: false
+        },
+        {
+            id: 3,
+            name: 'Spinach',
+            category: 'vegetables',
+            price: 30,
+            originalPrice: 30,
+            stock: 18,
+            unit: 'bunch',
+            image: 'https://images.unsplash.com/photo-1576045059150-473c9de3e749?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: null,
+            organic: true
+        },
+        {
+            id: 4,
+            name: 'Bananas',
+            category: 'fruits',
+            price: 40,
+            originalPrice: 40,
+            stock: 50,
+            unit: 'dozen',
+            image: 'https://images.unsplash.com/photo-1566393028639-d108a42c46a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: null,
+            organic: false
+        },
+        {
+            id: 5,
+            name: 'Bell Peppers',
+            category: 'vegetables',
+            price: 80,
+            originalPrice: 100,
+            stock: 27,
+            unit: 'kg',
+            image: 'https://images.unsplash.com/photo-1563597389324-71c592d982e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: '20% OFF',
+            organic: false
+        },
+        {
+            id: 6,
+            name: 'Mangoes',
+            category: 'fruits',
+            price: 150,
+            originalPrice: 180,
+            stock: 22,
+            unit: 'kg',
+            image: 'https://images.unsplash.com/photo-1553279768-865429fa0078?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: '17% OFF',
+            organic: true
+        },
+        {
+            id: 7,
+            name: 'Carrots',
+            category: 'vegetables',
+            price: 30,
+            originalPrice: 30,
+            stock: 40,
+            unit: 'kg',
+            image: 'https://images.unsplash.com/photo-1590766940554-153a0b48a220?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: null,
+            organic: false
+        },
+        {
+            id: 8,
+            name: 'Strawberries',
+            category: 'fruits',
+            price: 120,
+            originalPrice: 150,
+            stock: 15,
+            unit: 'box',
+            image: 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: '20% OFF',
+            organic: true
+        },
+        {
+            id: 9,
+            name: 'Broccoli',
+            category: 'vegetables',
+            price: 60,
+            originalPrice: 60,
+            stock: 22,
+            unit: 'head',
+            image: 'https://images.unsplash.com/photo-1519162584292-56dfc9eb5db4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: null,
+            organic: true
+        },
+        {
+            id: 10,
+            name: 'Oranges',
+            category: 'fruits',
+            price: 80,
+            originalPrice: 80,
+            stock: 35,
+            unit: 'kg',
+            image: 'https://images.unsplash.com/photo-1547514701-42782101795e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: null,
+            organic: false
+        },
+        {
+            id: 11,
+            name: 'Potatoes',
+            category: 'vegetables',
+            price: 25,
+            originalPrice: 25,
+            stock: 60,
+            unit: 'kg',
+            image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: null,
+            organic: false
+        },
+        {
+            id: 12,
+            name: 'Grapes',
+            category: 'fruits',
+            price: 100,
+            originalPrice: 120,
+            stock: 20,
+            unit: 'kg',
+            image: 'https://images.unsplash.com/photo-1537640538966-79f369143f8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            offer: '17% OFF',
+            organic: false
+        }
+    ];
+    
+    // State
+    let cartItems = 0;
+    let activeCategory = 'all';
+    let searchQuery = '';
+    
+    // Initialize the app
+    function init() {
+        renderProducts();
+        setupEventListeners();
+        simulateRealTimeUpdates();
+    }
+    
+    // Render products based on filters
+    function renderProducts() {
+        productsGrid.innerHTML = '';
+        
+        let filteredProducts = products;
+        
+        // Apply category filter
+        if (activeCategory !== 'all') {
+            if (activeCategory === 'offers') {
+                filteredProducts = products.filter(p => p.offer);
+            } else if (activeCategory === 'organic') {
+                filteredProducts = products.filter(p => p.organic);
+            } else {
+                filteredProducts = products.filter(p => p.category === activeCategory);
+            }
+        }
+        
+        // Apply search filter
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            filteredProducts = filteredProducts.filter(p => 
+                p.name.toLowerCase().includes(query) || 
+                (p.offer && p.offer.toLowerCase().includes(query))
+            );
+        }
+        
+        // Render products
+        filteredProducts.forEach(product => {
+            const card = createProductCard(product);
+            productsGrid.appendChild(card);
+        });
+        
+        // Add event listeners to forms
+        document.querySelectorAll('.booking-form').forEach(form => {
+            form.addEventListener('submit', handleBooking);
+        });
+    }
+    
+    // Create a product card element
+    function createProductCard(product) {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.dataset.id = product.id;
+        
+        // Calculate stock percentage for visual indicator
+        const stockPercentage = Math.min(100, (product.stock / 50) * 100);
+        const stockColor = stockPercentage > 50 ? 'var(--success)' : 
+                          stockPercentage > 20 ? 'var(--warning)' : 'var(--danger)';
+        
+        // Calculate discount percentage
+        const discountPercentage = product.originalPrice > product.price ? 
+            Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) : 0;
+        
+        card.innerHTML = `
+            ${product.organic ? '<div class="product-badge">Organic</div>' : ''}
+            ${product.offer ? `<div class="product-badge offer">${product.offer}</div>` : ''}
+            <div class="product-image" style="background-image: url('${product.image}')">
+                <div class="stock-overlay">
+                    <div class="stock-indicator">
+                        <span>Stock:</span>
+                        <div class="stock-bar">
+                            <div class="stock-fill" style="width: ${stockPercentage}%; background: ${stockColor}"></div>
+                        </div>
+                    </div>
+                    <span>${product.stock} ${product.unit}</span>
+                </div>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">${product.name}</h3>
+                <div class="product-price">
+                    <span class="price-current">₹${product.price}</span>
+                    ${product.originalPrice > product.price ? 
+                        `<span class="price-original">₹${product.originalPrice}</span>
+                         <span class="price-discount">${discountPercentage}% OFF</span>` : ''}
+                </div>
+                ${product.offer ? 
+                    `<div class="product-offer">
+                        <i class="fas fa-tag"></i>
+                        <span>${product.offer} - Limited Time!</span>
+                    </div>` : ''}
+                <form class="booking-form" data-id="${product.id}">
+                    <input type="number" 
+                        class="quantity-input" 
+                        min="1" 
+                        max="${product.stock}" 
+                        placeholder="Quantity" 
+                        required>
+                    <button type="submit" class="book-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        Book
+                    </button>
+                </form>
+            </div>
+        `;
+        
+        return card;
+    }
+    
+    // Handle booking form submission
+    function handleBooking(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const productId = form.dataset.id;
+        const quantityInput = form.querySelector('.quantity-input');
+        const quantity = parseInt(quantityInput.value);
+        
+        // Find the product
+        const product = products.find(p => p.id == productId);
+        
+        if (!product) {
+            showNotification('Product not found!', 'error');
+            return;
+        }
+        
+        if (quantity > product.stock) {
+            showNotification('Not enough stock available!', 'error');
+            return;
+        }
+        
+        // Simulate booking process
+        const bookBtn = form.querySelector('.book-btn');
+        bookBtn.disabled = true;
+        bookBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        
+        setTimeout(() => {
+            // Update stock
+            product.stock -= quantity;
+            
+            // Update cart count
+            cartItems += quantity;
+            updateCartCount();
+            
+            // Reset form
+            form.reset();
+            bookBtn.disabled = false;
+            bookBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Book';
+            
+            // Show success notification
+            showNotification(`Successfully booked ${quantity} ${product.unit} of ${product.name}!`, 'success');
+            
+            // Re-render products to update stock
+            renderProducts();
+        }, 800);
+    }
+    
+    // Show notification
+    function showNotification(message, type) {
+        notificationMessage.textContent = message;
+        notification.className = `notification ${type}`;
+        
+        // Update icon based on type
+        const icon = notification.querySelector('i');
+        if (type === 'success') {
+            icon.className = 'fas fa-check-circle';
+        } else if (type === 'error') {
+            icon.className = 'fas fa-exclamation-circle';
+        }
+        
+        notification.classList.add('show');
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 4000);
+    }
+    
+    // Update cart count
+    function updateCartCount() {
+        cartCount.textContent = cartItems;
+        
+        // Add animation to cart icon
+        const cartIcon = document.querySelector('.cart-icon');
+        cartIcon.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+            cartIcon.style.transform = 'scale(1)';
+        }, 300);
+    }
+    
+    // Setup event listeners
+    function setupEventListeners() {
+        // Category tabs
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                activeCategory = tab.dataset.category;
+                renderProducts();
+            });
+        });
+        
+        // Search input
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            renderProducts();
+        });
+    }
+    
+    // Simulate real-time updates from other users
+    function simulateRealTimeUpdates() {
+        setInterval(() => {
+            if (Math.random() > 0.7) { // 30% chance every 5 seconds
+                const randomIndex = Math.floor(Math.random() * products.length);
+                const product = products[randomIndex];
+                const randomQuantity = Math.floor(Math.random() * 3) + 1; // 1-3 units
+                
+                if (product.stock >= randomQuantity) {
+                    product.stock -= randomQuantity;
+                    
+                    // Show notification for stock update
+                    showNotification(`${product.name} stock updated! ${randomQuantity} ${product.unit} booked by another user.`, 'success');
+                    
+                    // Re-render products to update stock
+                    renderProducts();
+                }
+            }
+        }, 5000);
+    }
+    
+    // Initialize the app
+    init();
+});
