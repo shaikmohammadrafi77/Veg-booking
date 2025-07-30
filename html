@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh Market - Real-time Vegetable & Fruit Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <h1>Fresh Market</h1>
+                </div>
+                <div class="header-actions">
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        <span>Live Updates</span>
+                    </div>
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Fresh Vegetables & Fruits Delivered to Your Doorstep</h2>
+            <p>Order the freshest produce directly from local farms with real-time inventory updates</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for vegetables, fruits, offers..." id="search-input">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Tabs -->
+    <div class="container">
+        <div class="category-tabs">
+            <div class="tab active" data-category="all">All Products</div>
+            <div class="tab" data-category="vegetables">Vegetables</div>
+            <div class="tab" data-category="fruits">Fruits</div>
+            <div class="tab" data-category="offers">Special Offers</div>
+            <div class="tab" data-category="organic">Organic</div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="products-grid">
+            <!-- Products will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Special Offers Section -->
+    <section class="special-offers">
+        <div class="container">
+            <div class="section-header">
+                <h2>Today's Special Offers</h2>
+                <p>Save big on our fresh produce with these limited-time deals</p>
+            </div>
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <div class="offer-image" style="background-image: url('https://images.unsplash.com/photo-1581375043964-1df655699775?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="offer-content">
+                        <h3 class="offer-title">Weekend Veggie Bundle</h3>
+                        <p class="offer-description">Get a curated selection of 5 seasonal vegetables at a special price</p>
+                        <div class="offer-meta">
+                            <div class="offer-discount">30% OFF</div>
+                            <div class="offer-code">WEEKEND30</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-image" style="background-image: url('https://images.unsplash.com/photo-1514756331096-242fdeb70d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="offer-content">
+                        <h3 class="offer-title">Fruit Fiesta</h3>
+                        <p class="offer-description">Mix and match any 4 fruits and get 1 absolutely free</p>
+                        <div class="offer-meta">
+                            <div class="offer-discount">Buy 4 Get 1</div>
+                            <div class="offer-code">FRUIT5</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="offer-card">
+                    <div class="offer-image" style="background-image: url('https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="offer-content">
+                        <h3 class="offer-title">Organic Special</h3>
+                        <p class="offer-description">20% off on all certified organic produce this week</p>
+                        <div class="offer-meta">
+                            <div class="offer-discount">20% OFF</div>
+                            <div class="offer-code">ORGANIC20</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Fresh Market</h3>
+                    <p>Your trusted source for fresh, locally-sourced vegetables and fruits delivered straight to your doorstep.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Shop</a></li>
+                        <li><a href="#">Special Offers</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Green Street, Kalikiri</li>
+                        <li><i class="fas fa-phone"></i> +91 6302973495</li>
+                        <li><i class="fas fa-envelope"></i> support@freshmarket.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 8AM - 8PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Fresh Market. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-message"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
